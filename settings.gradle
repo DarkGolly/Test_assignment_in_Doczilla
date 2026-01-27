@@ -1,0 +1,3 @@
+rootProject.name = 'Test_assignment_in_Doczilla'
+include 'WaterSortingProblem'
+

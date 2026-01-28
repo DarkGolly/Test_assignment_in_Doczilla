@@ -1,6 +1,6 @@
 @echo off
-echo === Build project ===
-call gradlew.bat clean build
+echo === Build WaterSortingProblem ===
+call gradlew.bat :WaterSortingProblem:clean :WaterSortingProblem:build
 
 if %ERRORLEVEL% neq 0 (
     echo Build failed
@@ -9,6 +9,6 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo === Run jar ===
-java -jar WaterSortingProblem\build\libs\Test_assignment_in_Doczilla-1.0-SNAPSHOT.jar
+java -jar WaterSortingProblem\build\libs\WaterSortingProblem-1.0-SNAPSHOT.jar
 
 pause

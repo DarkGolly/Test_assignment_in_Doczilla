@@ -26,6 +26,14 @@ application {
     mainClass = 'com.darkgolly.weather.service.WeatherService'
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.darkgolly.weather.service.WeatherService'
+        )
+    }
+}
+
 test {
     useJUnitPlatform()
 }

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="'Weather for ' + ${city}">Weather</title>
+    <style>
+        body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0b1120;color:#e2e8f0;}
+        .wrap{max-width:980px;margin:0 auto;padding:32px;}
+        .card{background:#111827;border:1px solid #1f2937;border-radius:16px;padding:24px;box-shadow:0 20px 40px rgba(15,23,42,0.35);}
+        h1{margin:0 0 8px 0;font-size:28px;}
+        .meta{color:#94a3b8;font-size:14px;margin-bottom:16px;}
+        .chart{margin:16px 0 24px 0;overflow-x:auto;}
+        table{width:100%;border-collapse:collapse;font-size:14px;}
+        th,td{padding:10px;border-bottom:1px solid #1f2937;text-align:left;}
+        th{color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:12px;}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="card">
+        <h1>
+            <span th:text="${city}">City</span>
+            <span th:if="${country != null and !#strings.isEmpty(country)}">, <span th:text="${country}">Country</span></span>
+        </h1>
+        <div class="meta">
+            <span>Timezone: </span><span th:text="${timezone}">UTC</span>
+            <span> | Updated: </span><span th:text="${fetchedAt}">Now</span>
+        </div>
+        <div class="chart">
+            <canvas id="tempChart" width="800" height="320"></canvas>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Temperature, C</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="point : ${hourly}">
+                <td th:text="${point.time}">Time</td>
+                <td th:text="${#numbers.formatDecimal(point.temperature, 1, 1)}">0.0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:inline="javascript">
+/*<![CDATA[*/
+const points = /*[[${hourly}]]*/ [];
+const canvas = document.getElementById('tempChart');
+const ctx = canvas.getContext('2d');
+const padding = 40;
+const width = canvas.width;
+const height = canvas.height;
+
+if (points.length > 0) {
+    const temps = points.map(p => p.temperature);
+    const min = Math.min(...temps);
+    const max = Math.max(...temps);
+    const range = Math.max(1, max - min);
+    const stepX = points.length > 1 ? (width - 2 * padding) / (points.length - 1) : 1;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, width, height);
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padding, padding);
+    ctx.lineTo(padding, height - padding);
+    ctx.lineTo(width - padding, height - padding);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    points.forEach((p, i) => {
+        const x = padding + i * stepX;
+        const y = height - padding - ((p.temperature - min) / range) * (height - 2 * padding);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px Arial';
+    for (let i = 0; i < points.length; i += 3) {
+        const x = padding + i * stepX;
+        const label = String(points[i].time || '').split('T')[1] || points[i].time;
+        ctx.beginPath();
+        ctx.moveTo(x, height - padding);
+        ctx.lineTo(x, height - padding + 6);
+        ctx.strokeStyle = '#1e293b';
+        ctx.stroke();
+        ctx.fillText(label, x - 12, height - padding + 20);
+    }
+
+    ctx.fillText(max.toFixed(1) + ' C', 6, padding + 4);
+    ctx.fillText(min.toFixed(1) + ' C', 6, height - padding);
+}
+/*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Скачивание файла</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="panel">
+      <header class="panel__header">
+        <p class="eyebrow">File Sharing Service</p>
+        <h1>Войдите, чтобы скачать файл</h1>
+        <p class="subtitle">Нужна учетная запись, чтобы получить доступ к загрузке.</p>
+      </header>
+
+      <form id="download-login" class="auth__form">
+        <input id="download-username" type="text" placeholder="Логин" autocomplete="username" required />
+        <input id="download-password" type="password" placeholder="Пароль" autocomplete="current-password" required />
+        <button class="btn" type="submit">Скачать</button>
+      </form>
+      <p id="download-status" class="hint"></p>
+    </section>
+  </main>
+  <script src="/download.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>File Sharing Service</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="panel">
+      <header class="panel__header">
+        <p class="eyebrow">File Sharing Service</p>
+        <h1>Вход в сервис обмена файлами</h1>
+        <p class="subtitle">Авторизуйтесь, чтобы загружать и скачивать файлы.</p>
+      </header>
+
+      <section class="auth" id="auth-section">
+        <div class="auth__tabs">
+          <button class="tab tab--active" data-mode="login" type="button">Вход</button>
+          <button class="tab" data-mode="register" type="button">Регистрация</button>
+        </div>
+        <form id="auth-form" class="auth__form">
+          <input id="auth-username" type="text" placeholder="Логин" autocomplete="username" required />
+          <input id="auth-password" type="password" placeholder="Пароль" autocomplete="current-password" required />
+          <button class="btn" type="submit">Войти</button>
+        </form>
+        <p id="auth-status" class="hint">Введите логин и пароль.</p>
+      </section>
+
+      <p class="hint">После входа откроется профиль.</p>
+    </section>
+  </main>
+  <script src="/login.js"></script>
+</body>
+</html>

@@ -1,4 +1,6 @@
 @echo off
+chcp 65001 >nul
+set "JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8"
 echo === Build WaterSortingProblem ===
 call gradlew.bat :WaterSortingProblem:clean :WaterSortingProblem:build
 
